@@ -190,7 +190,7 @@ void integrate_vv(int n_steps)
     transfer_momentum_gpu = 0;
 #endif
 //VIRTUAL_SITES pos (and vel for DPD) update for security reason !!!
-#if defined(VIRTUAL_SITES) && !defined(VIRTUAL_SITES_TRACE)
+#if defined(VIRTUAL_SITES) && !defined(LBTRACERS)
     update_mol_vel_pos();
     ghost_communicator(&cell_structure.update_ghost_pos_comm);
     if (check_runtime_errors()) return;

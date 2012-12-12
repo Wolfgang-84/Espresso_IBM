@@ -84,8 +84,8 @@ MDINLINE int ifParticleIsVirtual(Particle *p){
  #include "virtual_sites_relative.h"
 #endif
 
-#ifdef VIRTUAL_SITES_TRACE
- #include "virtual_sites_trace.h"
+#ifdef LBTRACERS
+ #include "lbtracers.h"
 #endif
 
 #endif

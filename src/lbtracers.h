@@ -1,10 +1,10 @@
-#ifndef _VIRTUAL_SITES_TRACE_H
-#define _VIRTUAL_SITES_TRACE_H
+#ifndef _LBTRACERS_H
+#define _LBTRACERS_H
 
 #include "config.h"
 #include "particle_data.h"
 
-#ifdef _VIRTUAL_SITES_TRACE
+#ifdef _LBTRACERS
 
 //Update Position ~ Euler/Runge-Kutta
 void update_mol_pos_particle(Particle *);

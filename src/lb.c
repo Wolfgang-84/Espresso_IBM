@@ -2694,7 +2694,7 @@ void calc_particle_lattice_ia() {
 
       for (i=0;i<np;i++) {
 	
-#if defined(VIRTUAL_SITES_TRACE) && defined(TRIELASTIC)
+#if defined(LBTRACERS) && defined(TRIELASTIC)
         //Triangles are not subject to viscous coupling, but couple with fluid via elastic forces
 		if(ifParticleIsVirtual(&p[i])) {
 			couple_trace_to_fluid(&p[i]);
@@ -2742,7 +2742,7 @@ void calc_particle_lattice_ia() {
 
 	  ONEPART_TRACE(if(p[i].p.identity==check_id) fprintf(stderr,"%d: OPT: LB coupling of ghost particle:\n",this_node));
 
-#if defined(VIRTUAL_SITES_TRACE) && defined(TRIELASTIC)
+#if defined(LBTRACERS) && defined(TRIELASTIC)
      //Triangles are not subject to viscous coupling, but interact with the fluid via elastic forces
 	 if(ifParticleIsVirtual(&p[i])) {
 	 	couple_trace_to_fluid(&p[i]);

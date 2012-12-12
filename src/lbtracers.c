@@ -1,7 +1,7 @@
-#include "virtual_sites_trace.h"
+#include "lbtracers.h"
 #include "lb.h"
 
-#ifdef VIRTUAL_SITES_TRACE
+#ifdef LBTRACERS
 
 extern double time_step;
 
