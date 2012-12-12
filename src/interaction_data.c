@@ -447,6 +447,12 @@ static void recalc_maximal_cutoff_bonded()
         max_cut_bonded = bonded_ia_params[i].p.overlap.maxval;
       break;
 #endif
+#ifdef TRIELASTIC
+	case TRIEL_IA:
+	   if(max_cut_bonded < bonded_ia_params[i].p.triel.maxdist)
+	     max_cut_bonded = bonded_ia_params[i].p.triel.maxdist;
+	break;
+#endif
     default:
      break;
     }

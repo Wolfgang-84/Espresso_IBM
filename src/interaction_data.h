@@ -66,6 +66,8 @@
 #define BONDED_IA_ANGLE_COSINE 12
 /** Type of bonded interaction is a bond angle cosine potential. */ 
 #define BONDED_IA_ANGLE_COSSQUARE 13
+/** Type of Triangle_Stretch potential */
+#define TRIEL_IA 14
 
 /** Specify tabulated bonded interactions  */
 #define TAB_UNKNOWN          0
@@ -654,6 +656,24 @@ typedef struct {
       double distmin;
       double distmax;
     } endangledist;
+#endif
+#ifdef TRIELASTIC
+	/** Parameters for triangle with stretch forces */
+	struct {
+		double a1;
+		double a2;
+		double a3;
+		double b1;
+		double b2;
+		double b3;
+		double lo;
+		double lpo;
+		double sinpo;
+		double cospo;
+		double maxdist;
+		double ks;
+		double ka;
+	} triel;
 #endif
   } p;
 } Bonded_ia_parameters;

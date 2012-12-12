@@ -129,7 +129,8 @@ libEspresso_a_SOURCES += \
 	fene.c fene.h \
 	harmonic.c harmonic.h \
 	overlap.c overlap.h \
-	subt_lj.c subt_lj.h
+	subt_lj.c subt_lj.h \
+	triel.c triel.h
 
 # Coulomb methods
 libEspresso_a_SOURCES += \
@@ -228,7 +229,8 @@ libEspresso_a_SOURCES += \
 	tcl/fene_tcl.c tcl/fene_tcl.h \
 	tcl/harmonic_tcl.c tcl/harmonic_tcl.h \
 	tcl/overlap_tcl.c tcl/overlap_tcl.h \
-	tcl/subt_lj_tcl.c tcl/subt_lj_tcl.h
+	tcl/subt_lj_tcl.c tcl/subt_lj_tcl.h \
+	tcl/triel_tcl.c tcl/triel_tcl.h
 
 # Coulomb methods
 libEspresso_a_SOURCES += \

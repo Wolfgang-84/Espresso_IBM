@@ -77,6 +77,7 @@
 #include "elc.h"
 #include "iccp3m.h"
 #include "collision.h" 
+#include "triel.h"
 /* end of force files */
 
 /** \name Exported Functions */
@@ -560,6 +561,11 @@ MDINLINE void add_bonded_force(Particle *p1)
       bond_broken = 0;
       force[0]=force[1]=force[2]=0.0;
       break;
+#endif
+#ifdef TRIELASTIC
+    case TRIEL_IA:
+      bond_broken=calc_triel_force(p1,p2,p3,iaparams,force,force2);
+    break; 
 #endif
     default :
       errtxt = runtime_error(128 + ES_INTEGER_SPACE);
