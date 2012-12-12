@@ -32,8 +32,13 @@ void update_mol_vel_pos()
    //replace this by a better implementation later!
 
    // ORDER MATTERS! Update_mol_vel may rely on correct positions of virtual particcles
+#ifndef VIRTUAL_SITES_TRACE
    update_mol_pos();
    update_mol_vel();
+#else
+   update_mol_vel();
+   update_mol_pos();
+#endif
 }
 
 void update_mol_vel()
