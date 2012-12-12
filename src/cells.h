@@ -141,6 +141,10 @@ typedef struct {
   /** Communicator for particle data used by lattice Boltzmann */
   GhostCommunicator ghost_lbcoupling_comm;
 #endif
+  
+#ifdef TRIELASTIC
+  GhostCommunicator ghost_triel_comm;
+#endif
 
   /** Cell system dependent function to find the right node for a
       particle at position pos. 
