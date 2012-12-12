@@ -99,6 +99,19 @@ void force_calc()
   }
 
   calc_long_range_forces();
+  
+    //VIRTUAL_SITES distribute forces
+#ifdef VIRTUAL_SITES
+    ghost_communicator(&cell_structure.collect_ghost_force_comm);
+    init_forces_ghosts();
+    distribute_mol_force();
+    //if (check_runtime_errors()) break;
+#endif
+
+    /* Communication step: ghost forces */
+    ghost_communicator(&cell_structure.collect_ghost_force_comm);
+  
+  
 
 #ifdef LB
   if (lattice_switch & LATTICE_LB) calc_particle_lattice_ia() ;

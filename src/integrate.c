@@ -204,16 +204,6 @@ void integrate_vv(int n_steps)
 #endif
 
    force_calc();
-   
-   //VIRTUAL_SITES distribute forces
-#ifdef VIRTUAL_SITES
-   ghost_communicator(&cell_structure.collect_ghost_force_comm);
-   init_forces_ghosts();
-   distribute_mol_force();
-   if (check_runtime_errors()) return;
-#endif
-
-   ghost_communicator(&cell_structure.collect_ghost_force_comm);
 
 #ifdef ROTATION
     convert_initial_torques();
@@ -330,17 +320,6 @@ void integrate_vv(int n_steps)
 #endif
 
     force_calc();
-
-    //VIRTUAL_SITES distribute forces
-#ifdef VIRTUAL_SITES
-    ghost_communicator(&cell_structure.collect_ghost_force_comm);
-    init_forces_ghosts();
-    distribute_mol_force();
-    if (check_runtime_errors()) break;
-#endif
-
-    /* Communication step: ghost forces */
-    ghost_communicator(&cell_structure.collect_ghost_force_comm);
 
     /*apply trap forces to trapped molecules*/
 #ifdef MOLFORCES         

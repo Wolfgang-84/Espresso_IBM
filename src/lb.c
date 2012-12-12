@@ -2366,6 +2366,50 @@ void lattice_boltzmann_update() {
   
 }
 
+/*********************************************************************/
+/* Coupling tracer particles to fluid; used in membrane simulations */
+/********************************************************************/
+
+//Note: At the time this function is called, the forces saved in p are not yet scaled! Only called for virtual parts
+MDINLINE void couple_trace_to_fluid(Particle *p) {
+	double *local_f, delta_j[3];
+	double force[3];
+	index_t node_index[8];
+        double delta[6];
+	int k,x,y,z;
+	
+	map_position_to_lattice(&lblattice,p->r.p,node_index,delta);
+	
+	for(k=0; k<3; k++) {
+		force[k]=p->f.f[k];
+	}
+	
+	
+	
+        //fprintf(stderr, "%d: pos = (%lf %lf %lf)\n",p->p.identity, p->r.p[0], p->r.p[1], p->r.p[2]);
+	//fprintf(stderr, "%d: force = (%lf %lf %lf)\n",p->p.identity, force[0], force[1], force[2]);
+		
+	//Distribute force among adjacent nodes, just as in viscous coupling
+	delta_j[0] = force[0]*time_step*tau/agrid;
+ 	delta_j[1] = force[1]*time_step*tau/agrid;
+  	delta_j[2] = force[2]*time_step*tau/agrid;
+		
+		
+	for (z=0;z<2;z++) {
+   		 for (y=0;y<2;y++) {
+      			for (x=0;x<2;x++) {
+	
+				local_f = lbfields[node_index[(z*2+y)*2+x]].force;
+
+				local_f[0] += delta[3*x+0]*delta[3*y+1]*delta[3*z+2]*delta_j[0];
+				local_f[1] += delta[3*x+0]*delta[3*y+1]*delta[3*z+2]*delta_j[1];
+				local_f[2] += delta[3*x+0]*delta[3*y+1]*delta[3*z+2]*delta_j[2];
+
+      			}
+    		}
+  	}
+}
+
 /***********************************************************************/
 /** \name Coupling part */
 /***********************************************************************/
@@ -2640,6 +2684,7 @@ void calc_particle_lattice_ia() {
     
     /* communicate the random numbers */
     ghost_communicator(&cell_structure.ghost_lbcoupling_comm) ;
+    ghost_communicator(&cell_structure.ghost_triel_comm);
     
     /* local cells */
     for (c=0;c<local_cells.n;c++) {
@@ -2648,6 +2693,23 @@ void calc_particle_lattice_ia() {
       np = cell->n ;
 
       for (i=0;i<np;i++) {
+	
+#if defined(VIRTUAL_SITES_TRACE) && defined(TRIELASTIC)
+        //Triangles are not subject to viscous coupling, but couple with fluid via elastic forces
+		if(ifParticleIsVirtual(&p[i])) {
+			couple_trace_to_fluid(&p[i]);
+		} else {
+			lb_viscous_coupling(&p[i],force);
+
+			/* add force to the particle */
+			p[i].f.f[0] += force[0];
+			p[i].f.f[1] += force[1];
+			p[i].f.f[2] += force[2];
+
+			ONEPART_TRACE(if(p->p.identity==check_id) fprintf(stderr,"%d: OPT: LB f = (%.6e,%.3e,%.3e)\n",this_node,p->f.f[0],p->f.f[1],p->f.f[2]));
+		}
+
+#else
 
 	lb_viscous_coupling(&p[i],force);
 
@@ -2657,6 +2719,9 @@ void calc_particle_lattice_ia() {
 	p[i].f.f[2] += force[2];
 
 	ONEPART_TRACE(if(p->p.identity==check_id) fprintf(stderr,"%d: OPT: LB f = (%.6e,%.3e,%.3e)\n",this_node,p->f.f[0],p->f.f[1],p->f.f[2]));
+
+#endif 
+	
   
       }
 
@@ -2677,7 +2742,16 @@ void calc_particle_lattice_ia() {
 
 	  ONEPART_TRACE(if(p[i].p.identity==check_id) fprintf(stderr,"%d: OPT: LB coupling of ghost particle:\n",this_node));
 
+#if defined(VIRTUAL_SITES_TRACE) && defined(TRIELASTIC)
+     //Triangles are not subject to viscous coupling, but interact with the fluid via elastic forces
+	 if(ifParticleIsVirtual(&p[i])) {
+	 	couple_trace_to_fluid(&p[i]);
+	 } else {
+	 	lb_viscous_coupling(&p[i],force);
+	 }
+#else
 	  lb_viscous_coupling(&p[i],force);
+#endif	
 
 	  /* ghosts must not have the force added! */
 
