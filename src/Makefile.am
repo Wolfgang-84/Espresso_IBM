@@ -93,7 +93,7 @@ libEspresso_a_SOURCES = \
 	virtual_sites.c virtual_sites.h \
 	virtual_sites_com.c virtual_sites_com.h \
 	virtual_sites_relative.c virtual_sites_relative.h \
-	virtual_sites_trace.c virtual_sites_trace.h \
+	lbtracers.c lbtracers.h \
 	vmdsock.c vmdsock.h \
 	ghmc.c ghmc.h
 
