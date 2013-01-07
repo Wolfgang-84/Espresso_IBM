@@ -57,6 +57,7 @@ int triel_set_params(int bond_type, int ind1, int ind2, int ind3, double max, do
   	bonded_ia_params[bond_type].p.triel.lpo = lpo;
   	bonded_ia_params[bond_type].p.triel.sinpo = sinpo;
   	bonded_ia_params[bond_type].p.triel.cospo = cospo;
+	bonded_ia_params[bond_type].p.triel.area0 = 0.5*area2;
   	bonded_ia_params[bond_type].p.triel.maxdist = max;
   	bonded_ia_params[bond_type].p.triel.ks = ks;
   	bonded_ia_params[bond_type].p.triel.ka = ka;
