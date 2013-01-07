@@ -286,7 +286,7 @@ void integrate_vv(int n_steps)
     cells_update_ghosts();
 
     //VIRTUAL_SITES update pos and vel (for DPD)
-#ifdef VIRTUAL_SITES
+#if defined(VIRTUAL_SITES) && !defined(LBTRACERS)
     update_mol_vel_pos();
     ghost_communicator(&cell_structure.update_ghost_pos_comm);
 
@@ -333,6 +333,19 @@ void integrate_vv(int n_steps)
        v(t+dt) = v(t+0.5*dt) + 0.5*dt * f(t+dt) */
     rescale_forces_propagate_vel();
     recalc_forces = 0;
+    
+// LBTracers are propagated after the forces are distributed to the grid, but before the fluid streaming    
+#ifdef LBTRACERS
+    update_mol_vel_pos();
+    ghost_communicator(&cell_structure.update_ghost_pos_comm);
+
+    if (check_runtime_errors()) break;
+
+#ifdef ADRESS
+    //adress_update_weights();
+    if (check_runtime_errors()) break;
+#endif
+#endif
     
 #ifdef LB
     if (lattice_switch & LATTICE_LB) lattice_boltzmann_update();
