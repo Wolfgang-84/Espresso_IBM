@@ -2201,6 +2201,7 @@ MDINLINE void lb_collide_stream() {
     index_t index;
     int x, y, z;
     double modes[19];
+    int i;
 
     /* loop over all lattice cells (halo excluded) */
 #ifdef LB_BOUNDARIES
@@ -2259,6 +2260,12 @@ MDINLINE void lb_collide_stream() {
       
       index += 2*lblattice.halo_grid[0]; /* skip halo region */
     }
+    
+     for (i=0; i<lblattice.halo_grid_volume; ++i) {
+           lbfields[i].force[0] = 0;
+           lbfields[i].force[1] = 0;
+           lbfields[i].force[2] = 0;
+     }
 
     /* exchange halo regions */
     halo_push_communication();
