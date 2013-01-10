@@ -1,18 +1,24 @@
 #include "lbtracers.h"
 #include "lb.h"
+#include "integrate.c"
 
 #ifdef LBTRACERS
 
 extern double time_step;
+//extern double skin (?)
 
 //Update Position ~ Euler
 void update_mol_pos_particle(Particle *p) {
 	//Do Euler for particle p; assume velocity has already been calculated 
 	// & is stored in particle data
 	int j;
+	double skin2 = SQR(0.5 * skin);
 	for(j=0;j<3;j++) {
 	    //velocity scaled by *time_step -> simple addition
+	    // Check if a particle might have crossed a box border (Verlet criterium); 
+	    //if possible resort_particles = 1
 		p->r.p[j] = p->r.p[j] + p->m.v[j];
+		if(distance2(p[j].r.p,p[j].l.p_old) > skin2 ) resort_particles = 1;
 	}
 }
 

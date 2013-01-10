@@ -74,6 +74,12 @@ void update_mol_pos()
     }
     //only for real particles
   }
+  
+#ifdef LBTRACERS
+   //Needed if tracers cross a box border
+   announce_resort_particles();
+#endif
+  
 }
 
 int update_mol_pos_cfg(){
