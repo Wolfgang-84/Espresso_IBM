@@ -9,6 +9,7 @@
 #ifdef TRIELASTIC
 
 int triel_set_params(int bond_type, int ind1, int ind2, int ind3, double max, double ks, double ka);
+int triel_reset_params(int bond_type, double lo, double lpo, double cospo, double sinpo, double Area0, double max, double ks, double ka);
 
 //Use knowledge that the x-axis in rotates system is parallel to r(p1->p2) in original system;
 //To find the corresponding unit vector to y in the rotated system, construct vector perpendicular to r(p1->p2);
