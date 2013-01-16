@@ -2262,9 +2262,17 @@ MDINLINE void lb_collide_stream() {
     }
     
      for (i=0; i<lblattice.halo_grid_volume; ++i) {
-           lbfields[i].force[0] = 0;
-           lbfields[i].force[1] = 0;
-           lbfields[i].force[2] = 0;
+#ifdef EXTERNAL_FORCES
+	// unit conversion: force density
+	lbfields[i].force[0] = lbpar.ext_force[0]*pow(lbpar.agrid,4)*tau*tau;
+	lbfields[i].force[1] = lbpar.ext_force[1]*pow(lbpar.agrid,4)*tau*tau;
+	lbfields[i].force[2] = lbpar.ext_force[2]*pow(lbpar.agrid,4)*tau*tau;
+#else
+	lbfields[i].force[0] = 0.0;
+	lbfields[i].force[1] = 0.0;
+	lbfields[i].force[2] = 0.0;
+	lbfields[i].has_force = 0;
+#endif
      }
 
     /* exchange halo regions */

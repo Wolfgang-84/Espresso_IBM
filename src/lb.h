@@ -279,6 +279,11 @@ int lb_lbfluid_get_interpolated_velocity(double* p, double* v);
  * can be called without the position needing to be on the local processor */
 int lb_lbfluid_get_interpolated_velocity_global(double* p, double* v); 
 
+/** calculated the fluid velocity at a given position, like the
+ *  "lb_lbfluid_get_interpolated_velocity" function
+ *  but takes the forces on the nodes into account. */
+
+int lb_lbfluid_get_interpolated_velocity_lbtrace(double* p, double* v);
 
 /** Calculation of hydrodynamic modes.
  *

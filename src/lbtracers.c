@@ -1,6 +1,6 @@
 #include "lbtracers.h"
 #include "lb.h"
-#include "integrate.c"
+#include "integrate.h"
 
 #ifdef LBTRACERS
 
@@ -33,13 +33,7 @@ void update_mol_vel_particle(Particle *p) {
 	}
 	
 	//Get interpolated velocity from LB
-	//lb_lbfluid_get_interpolated_velocity_global(p_temp, v_int);
 	lb_lbfluid_get_interpolated_velocity_lbtrace(p_temp,v_int);
-	//lb_lbfluid_get_interpolated_velocity_global(p_temp, v_intg);
-	
-	//if(p->p.identity == 0) {
-	  //fprintf(stderr, "(%lf %lf %lf) - (%lf %lf %lf)\n", v_int[0], v_int[1], v_int[2], v_intg[0], v_intg[1], v_intg[2]);
-	//}
 	
 	//rescale velocities on LB-level to MD-level (see viscous coupling)
 	for(j=0;j<3;j++) {

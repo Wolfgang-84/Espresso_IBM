@@ -670,7 +670,7 @@ typedef struct {
 		double lpo;
 		double sinpo;
 		double cospo;
-		double area0;
+		double Area0;
 		double maxdist;
 		double ks;
 		double ka;
