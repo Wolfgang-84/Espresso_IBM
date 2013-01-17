@@ -38,7 +38,7 @@ int triel_set_params(int bond_type, int ind1, int ind2, int ind3, double max, do
 	sinpo = sqrt(sqrlen(vecpro))/(lo*lpo);
 	
 	//Use the values determined above for further constants of the stretch-force calculation
-	area2 = lo * lpo * cospo;
+	area2 = lo * lpo * sinpo;
 	a1 = -(lo*sinpo)/area2;
 	a2 = - a1;
 	a3 = 0.0;

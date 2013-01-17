@@ -70,7 +70,7 @@ MDINLINE int calc_triel_force(Particle *p_ind1, Particle *p_ind2, Particle *p_in
 	dyy = (l*sinp)/(iaparams->p.triel.lo * iaparams->p.triel.sinpo);
 	gxx = SQR(dxx)+SQR(dyx);
 	gxy = dxx*dxy + dyx*dyy;
-	gyx = dyy*dxy + dyy*dyx;
+	gyx = dxx*dxy + dyy*dyx;
 	gyy = SQR(dxy) + SQR(dyy);
 	i1 = gxx + gyy - 2;
 	i2 = gxx * gyy - gxy * gyx - 1;
