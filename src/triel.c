@@ -49,10 +49,8 @@ int triel_set_params(int bond_type, int ind1, int ind2, int ind3, double max, do
 	//Hand these values over to parameter structure
   	bonded_ia_params[bond_type].p.triel.a1 = a1;
   	bonded_ia_params[bond_type].p.triel.a2 = a2;
-	bonded_ia_params[bond_type].p.triel.a3 = a3;
   	bonded_ia_params[bond_type].p.triel.b1 = b1;
   	bonded_ia_params[bond_type].p.triel.b2 = b2;
-  	bonded_ia_params[bond_type].p.triel.b3 = b3;
   	bonded_ia_params[bond_type].p.triel.lo = lo;
   	bonded_ia_params[bond_type].p.triel.lpo = lpo;
   	bonded_ia_params[bond_type].p.triel.sinpo = sinpo;
@@ -97,15 +95,10 @@ int triel_reset_params(int bond_type, double lo, double lpo, double cospo, doubl
 	b3 = lpo/area2;
 
 	//Hand these values over to parameter structure
-	//bonded_ia_params[bond_type].p.triel.ind1 = ind1;
-	//bonded_ia_params[bond_type].p.triel.ind2 = ind2;
-	//bonded_ia_params[bond_type].p.triel.ind3 = ind3;
   	bonded_ia_params[bond_type].p.triel.a1 = a1;
   	bonded_ia_params[bond_type].p.triel.a2 = a2;
-	bonded_ia_params[bond_type].p.triel.a3 = a3;
   	bonded_ia_params[bond_type].p.triel.b1 = b1;
   	bonded_ia_params[bond_type].p.triel.b2 = b2;
-  	bonded_ia_params[bond_type].p.triel.b3 = b3;
   	bonded_ia_params[bond_type].p.triel.lo = lo;
   	bonded_ia_params[bond_type].p.triel.lpo = lpo;
   	bonded_ia_params[bond_type].p.triel.sinpo = sinpo;

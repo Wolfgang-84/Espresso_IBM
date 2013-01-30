@@ -2615,7 +2615,7 @@ int lb_lbfluid_get_interpolated_velocity(double* p, double* v) {
 }
 
 //Calculate interpolated velocity with updated (+f_ext), but not yet streamed modes
-int lb_lbfluid_get_interpolated_velocity_lbtrace(double* p, double* v, int id) {
+int lb_lbfluid_get_interpolated_velocity_lbtrace(double* p, double* v) {
   index_t node_index[8], index;
   double delta[6];
   double local_rho, local_j[3], interpolated_u[3];

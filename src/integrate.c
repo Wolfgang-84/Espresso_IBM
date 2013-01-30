@@ -334,7 +334,18 @@ void integrate_vv(int n_steps)
     rescale_forces_propagate_vel();
     recalc_forces = 0;
     
-// LBTracers are propagated after the forces are distributed to the grid, but before the fluid streaming    
+#ifdef LB
+    if (lattice_switch & LATTICE_LB) lattice_boltzmann_update();
+    if (check_runtime_errors()) break;
+#endif
+
+#ifdef LB_GPU
+    if(this_node == 0){
+      if (lattice_switch & LATTICE_LB_GPU) lattice_boltzmann_update_gpu();
+    }
+#endif
+
+// LBTracers are propagated after the fluid has been updated
 #ifdef LBTRACERS
     update_mol_vel_pos();
     ghost_communicator(&cell_structure.update_ghost_pos_comm);
@@ -347,16 +358,6 @@ void integrate_vv(int n_steps)
 #endif
 #endif
     
-#ifdef LB
-    if (lattice_switch & LATTICE_LB) lattice_boltzmann_update();
-    if (check_runtime_errors()) break;
-#endif
-
-#ifdef LB_GPU
-    if(this_node == 0){
-      if (lattice_switch & LATTICE_LB_GPU) lattice_boltzmann_update_gpu();
-    }
-#endif
 
 #ifdef BOND_CONSTRAINT
     ghost_communicator(&cell_structure.update_ghost_pos_comm);
