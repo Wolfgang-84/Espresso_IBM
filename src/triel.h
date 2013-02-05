@@ -73,8 +73,16 @@ MDINLINE int calc_triel_force(Particle *p_ind1, Particle *p_ind2, Particle *p_in
 	gyy = SQR(dxy) + SQR(dyy);
 	i1 = gxx + gyy - 2;
 	i2 = gxx * gyy - gxy * gyx - 1;
+
+    //Possibility to use the NeoHookean model for the membrane.	
+#ifdef TRIELNEOHOOKIAN	
+	e1 = iaparams->p.triel.ks/6.0;
+	e2 = (-1)*iaparams->p.triel.ks/(6.0*(i2+1.0)*(i2+1.0));
+#else
+	//Skalak-Law = Standard
 	e1 = iaparams->p.triel.ks*(i1+1)/6.0;
-        e2 = (-1)*iaparams->p.triel.ks/6.0 + iaparams->p.triel.ka*i2/6.0;
+	e2 = (-1)*iaparams->p.triel.ks/6.0 + iaparams->p.triel.ka*i2/6.0;
+#endif
     
     //For sake of better readability shorten the call for the triangle's constants:
     a1 = iaparams->p.triel.a1; a2 = iaparams->p.triel.a2;
