@@ -3,6 +3,11 @@
 
 #include "config.h"
 #include "particle_data.h"
+#include "tcl/parser.h"
+
+extern int sequ; 
+
+int tclcallback_sequ(Tcl_Interp *interp, void *_data);
 
 #ifdef _LBTRACERS
 

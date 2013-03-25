@@ -1,6 +1,23 @@
 #include "lbtracers.h"
 #include "lb.h"
 #include "integrate.h"
+#include "initialize.h"
+#include "communication.h"
+
+int sequ = 0;
+
+int tclcallback_sequ(Tcl_Interp *interp, void *_data) {
+    int data = *(int *)_data;
+    if(data!=0 && data!=1) {
+      Tcl_AppendResult(interp, "Select sequ 0 or 1", (char *) NULL);
+      return (TCL_ERROR);
+    }
+    
+    sequ = data;
+    mpi_bcast_parameter(FIELD_SEQU);
+    //on_parameter_change(FIELD_SEQU);
+    return (TCL_OK);
+}
 
 #ifdef LBTRACERS
 
@@ -33,7 +50,11 @@ void update_mol_vel_particle(Particle *p) {
 	}
 	
 	//Get interpolated velocity from LB
-	lb_lbfluid_get_interpolated_velocity(p_temp,v_int);
+	if(sequ == 1) {
+	  lb_lbfluid_get_interpolated_velocity_lbtrace(p_temp,v_int, p->p.identity);
+	} else {
+	  lb_lbfluid_get_interpolated_velocity(p_temp,v_int);
+	}
 	
 	//rescale velocities on LB-level to MD-level (see viscous coupling)
 	for(j=0;j<3;j++) {

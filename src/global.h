@@ -176,6 +176,12 @@ extern const Datafield fields[];
 #define FIELD_GHMC_FLIP           49
 /** index of \ref ghmc_phi in \ref #fields */
 #define FIELD_GHMC_SCALE          50 
+/** index of \ref sequence in \ref #fields */
+#define FIELD_SEQU	     	      51
+/** index of \ref vesicle number in \ref #fields */
+#define FIELD_VESCNUM			  52
+/** index of \ref VVolo in \ref #fields */
+#define FIELD_VVOLO				  53
 /*@}*/
 
 #endif

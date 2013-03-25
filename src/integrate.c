@@ -59,6 +59,8 @@
 #include "adresso.h"
 #include "statistics_correlation.h"
 #include "ghmc.h"
+#include "vvolume.h"
+#include "lbtracers.h"
 
 /************************************************
  * DEFINES
@@ -168,6 +170,17 @@ void integrate_vv(int n_steps)
 
   /* Prepare the Integrator */
   on_integration_start();
+  
+#ifdef VVOLUME
+if(vescnum > 0) {
+  GetCentroidV();
+  GetVolumeV();
+  //if Vo(0) = 0 => Initial Volume has not been set yet; assume at least one body of non-zero volume
+  if(VVolo[0]==0.0) {
+      SetVo();
+  }
+}
+#endif
 
   /* if any method vetoes (P3M not initialized), immediately bail out */
   if (check_runtime_errors())
@@ -240,6 +253,14 @@ void integrate_vv(int n_steps)
   /* Integration loop */
   for(i=0;i<n_steps;i++) {
     INTEG_TRACE(fprintf(stderr,"%d: STEP %d\n",this_node,i));
+    
+#ifdef VVOLUME
+if(vescnum > 0) {
+    GetCentroidV();
+    GetVolumeV();
+    RescaleVesicle(); 
+}
+#endif
 
 #ifdef BOND_CONSTRAINT
     save_old_pos();
@@ -334,6 +355,20 @@ void integrate_vv(int n_steps)
     rescale_forces_propagate_vel();
     recalc_forces = 0;
     
+#ifdef LBTRACERS
+    if(sequ==1) {
+      update_mol_vel_pos();
+      ghost_communicator(&cell_structure.update_ghost_pos_comm);
+
+      if (check_runtime_errors()) break;
+
+#ifdef ADRESS
+      //adress_update_weights();
+      if (check_runtime_errors()) break;
+#endif
+    }
+#endif     
+    
 #ifdef LB
     if (lattice_switch & LATTICE_LB) lattice_boltzmann_update();
     if (check_runtime_errors()) break;
@@ -347,15 +382,17 @@ void integrate_vv(int n_steps)
 
 // LBTracers are propagated after the fluid has been updated
 #ifdef LBTRACERS
-    update_mol_vel_pos();
-    ghost_communicator(&cell_structure.update_ghost_pos_comm);
+    if(sequ==0) {
+      update_mol_vel_pos();
+      ghost_communicator(&cell_structure.update_ghost_pos_comm);
 
-    if (check_runtime_errors()) break;
+      if (check_runtime_errors()) break;
 
 #ifdef ADRESS
-    //adress_update_weights();
-    if (check_runtime_errors()) break;
+      //adress_update_weights();
+      if (check_runtime_errors()) break;
 #endif
+    }
 #endif
     
 

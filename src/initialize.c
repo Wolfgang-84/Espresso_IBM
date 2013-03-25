@@ -63,6 +63,7 @@
 #include "lb-boundaries.h"
 #include "ghmc.h"
 #include "domain_decomposition.h"
+#include "vvolume.h"
 
 /** whether the thermostat has to be reinitialized before integration */
 static int reinit_thermo = 1;
@@ -669,6 +670,12 @@ void on_parameter_change(int field)
     /* LB needs ghost velocities */
     on_ghost_flags_change();
     break;
+#endif
+#ifdef VVOLUME
+   case FIELD_VESCNUM:
+   SetCentVV();
+   SetVVol();
+   break;
 #endif
   }
 }

@@ -268,6 +268,11 @@ void calc_particle_lattice_ia();
  * position is not within the local lattice. */
 int lb_lbfluid_get_interpolated_velocity(double* p, double* v); 
 
+/** calculated the fluid velocity at a given position, like the
+ *  "lb_lbfluid_get_interpolated_velocity" function
+ *  but takes the forces on the nodes into account. */
+int lb_lbfluid_get_interpolated_velocity_lbtrace(double* p, double* v);
+
 /** calculates the fluid velocity at a given position of the 
  * lattice. Note that it can lead to undefined behaviour if the
  * position is not within the local lattice. */

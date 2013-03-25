@@ -33,6 +33,8 @@
 #include "rattle.h"
 #include "imd.h"
 #include "ghmc.h"
+#include "lbtracers.h"
+#include "vvolume.h"
 
 /** This array contains the description of all global variables.
 
@@ -90,5 +92,8 @@ const Datafield fields[] = {
   {&ghmc_mc_res,     TYPE_INT,    1, "ghmc_mc_res",       7 },         /* 48 from ghmc.c */
   {&ghmc_mflip,      TYPE_INT,    1, "ghmc_mflip",        7 },         /* 49 from ghmc.c */
   {&ghmc_tscale,     TYPE_INT,    1, "ghmc_tscale",       6 },         /* 50 from ghmc.c */
+  {&sequ,	            TYPE_INT, 1, "sequ",		      4 },         /* 51 from lbtracers.c */
+  {&vescnum,            TYPE_INT, 1, "vescnum",           7 },         /* 52 from vvolume.c */
+  {VVolo,			 TYPE_DOUBLE, 200, "vvolo",           5 },         /* 53 from vvolume.c */
   { NULL, 0, 0, NULL, 0 }
 };
