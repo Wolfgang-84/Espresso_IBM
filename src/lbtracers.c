@@ -51,7 +51,7 @@ void update_mol_vel_particle(Particle *p) {
 	
 	//Get interpolated velocity from LB
 	if(sequ == 1) {
-	  lb_lbfluid_get_interpolated_velocity_lbtrace(p_temp,v_int, p->p.identity);
+	  lb_lbfluid_get_interpolated_velocity_lbtrace(p_temp,v_int);
 	} else {
 	  lb_lbfluid_get_interpolated_velocity(p_temp,v_int);
 	}
