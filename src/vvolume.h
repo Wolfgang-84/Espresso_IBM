@@ -185,6 +185,9 @@ MDINLINE void RescaleVesicle() {
     Particle *p ;
     double a;
     int midme;
+    int img[3];
+    double upos[3];
+    double uposn[3], dp[3];
     
     double skin2 = SQR(0.5 * skin);
     
@@ -202,20 +205,23 @@ MDINLINE void RescaleVesicle() {
 	    midme = p[i].p.mol_id-1;
 	    a = pow(VVolo[midme]/VVol[midme], 1.0/3.0);
 	    
-	   // printf("@node %d: ml = %d, VVolo[0] = %lf, VVol[0] = %lf  a = %lf\n", this_node, ml, VVolo[0], VVol[0],a );
+	    //printf("@node %d: pid = %d, VVolo[0] = %lf, VVol[0] = %lf  a = %lf\n", this_node, p[i].p.identity, VVolo[0], VVol[0],a );
 	    
 	    //Unfold pos, since centroid in 'real' coordinates
-	    unfold_position(p[i].r.p,p[i].l.i);
+	    upos[0] = p[i].r.p[0]; upos[1] = p[i].r.p[1]; upos[2] = p[i].r.p[2];
+	    img[0] = p[i].l.i[0]; img[1] = p[i].l.i[1]; img[2] = p[i].l.i[2];
+	    
+	    unfold_position(upos,img);
+	    
 	    
 	    //scale the position so that V = Vo again
 	    for(j=0;j<3;j++) {
-	      p[i].r.p[j] = a * p[i].r.p[j] + (1-a) * CentVV[(midme*4)+j];
+	     uposn[j] = a * upos[j] + (1-a) * CentVV[(midme*4)+j];
+	     dp[j] = uposn[j]-upos[j];
+	     p[i].r.p[j]+=dp[j];
 	    }
 	    
-	    //Fold new position back to box
-	    fold_position(p[i].r.p, p[i].l.i);
-	    
-	    if(distance2(p[j].r.p,p[j].l.p_old) > skin2 ) resort_particles = 1;
+	    if(distance2(p[i].r.p,p[i].l.p_old) > skin2 ) resort_particles = 1;
 	    
 	 } //end if p of body
       } //end for all parts
