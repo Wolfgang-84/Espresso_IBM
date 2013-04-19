@@ -68,6 +68,8 @@
 #define BONDED_IA_ANGLE_COSSQUARE 13
 /** Type of Triangle_Stretch potential */
 #define TRIEL_IA 14
+/** Type of Triangle_Bending potential */
+#define TRIBEND_IA 15
 
 /** Specify tabulated bonded interactions  */
 #define TAB_UNKNOWN          0
@@ -673,6 +675,14 @@ typedef struct {
 		double ks;
 		double ka;
 	} triel;
+#endif
+#ifdef TRIBEND
+	struct {
+		double kb;
+		double theta0;
+		double max;
+		int boo;
+	} tribend;
 #endif
   } p;
 } Bonded_ia_parameters;

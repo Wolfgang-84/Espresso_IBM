@@ -96,7 +96,7 @@ libEspresso_a_SOURCES = \
 	lbtracers.c lbtracers.h \
 	vmdsock.c vmdsock.h \
 	ghmc.c ghmc.h \
-	vvolume.h vvolume.c
+	vvolume.h vvolume.c 
 
 # nonbonded potentials and forces
 libEspresso_a_SOURCES += \
@@ -131,7 +131,8 @@ libEspresso_a_SOURCES += \
 	harmonic.c harmonic.h \
 	overlap.c overlap.h \
 	subt_lj.c subt_lj.h \
-	triel.c triel.h
+	triel.c triel.h \
+	tribend.c tribend.h
 
 # Coulomb methods
 libEspresso_a_SOURCES += \
@@ -196,7 +197,8 @@ libEspresso_a_SOURCES += \
 	tcl/uwerr_tcl.c \
 	tcl/virtual_sites_com_tcl.c tcl/virtual_sites_com_tcl.h \
 	tcl/ghmc_tcl.c tcl/ghmc_tcl.h \
-	tcl/vvolume_tcl.c tcl/vvolume_tcl.h
+	tcl/vvolume_tcl.c tcl/vvolume_tcl.h 
+	
 
 # nonbonded potentials and forces
 libEspresso_a_SOURCES += \
@@ -232,7 +234,8 @@ libEspresso_a_SOURCES += \
 	tcl/harmonic_tcl.c tcl/harmonic_tcl.h \
 	tcl/overlap_tcl.c tcl/overlap_tcl.h \
 	tcl/subt_lj_tcl.c tcl/subt_lj_tcl.h \
-	tcl/triel_tcl.c tcl/triel_tcl.h
+	tcl/triel_tcl.c tcl/triel_tcl.h \
+	tcl/tribend_tcl.c tcl/tribend_tcl.h
 
 # Coulomb methods
 libEspresso_a_SOURCES += \

@@ -453,6 +453,12 @@ static void recalc_maximal_cutoff_bonded()
 	     max_cut_bonded = bonded_ia_params[i].p.triel.maxdist;
 	break;
 #endif
+#ifdef TRIBEND
+	case TRIBEND_IA:
+	   if(max_cut_bonded < bonded_ia_params[i].p.tribend.max) 
+	     max_cut_bonded = bonded_ia_params[i].p.tribend.max;
+	break;
+#endif	
     default:
      break;
     }

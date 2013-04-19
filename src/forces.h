@@ -78,6 +78,7 @@
 #include "iccp3m.h"
 #include "collision.h" 
 #include "triel.h"
+#include "tribend.h"
 /* end of force files */
 
 /** \name Exported Functions */
@@ -567,6 +568,11 @@ MDINLINE void add_bonded_force(Particle *p1)
       bond_broken=calc_triel_force(p1,p2,p3,iaparams,force,force2);
     break; 
 #endif
+#ifdef TRIBEND
+    case TRIBEND_IA:
+      bond_broken=calc_tribend_force(p1,p2,p3,p4,iaparams);  
+    break;
+#endif   
     default :
       errtxt = runtime_error(128 + ES_INTEGER_SPACE);
       ERROR_SPRINTF(errtxt,"{082 add_bonded_force: bond type of atom %d unknown\n", p1->p.identity);
@@ -651,15 +657,25 @@ MDINLINE void add_bonded_force(Particle *p1)
 #endif 
       for (j = 0; j < 3; j++) {
 #ifdef ADRESS
+#ifdef TRIBEND
+       if(type != TRIBEND_IA)
+#endif
+      {
 	p1->f.f[j] += force_weight*force[j];
 	p2->f.f[j] += force_weight*force2[j];
 	p3->f.f[j] += force_weight*force3[j];
 	p4->f.f[j] -= force_weight*(force[j] + force2[j] + force3[j]);
+      }
 #else
+#ifdef TRIBEND
+    if (type != TRIBEND_IA)
+#endif
+    {
 	p1->f.f[j] += force[j];
 	p2->f.f[j] += force2[j];
 	p3->f.f[j] += force3[j];
 	p4->f.f[j] -= (force[j] + force2[j] + force3[j]);
+    }
 #endif
       }
       break;
